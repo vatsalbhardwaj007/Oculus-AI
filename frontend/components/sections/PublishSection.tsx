@@ -1,110 +1,104 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Copy, Check } from 'lucide-react';
+import { FileText, CheckCircle2, ShieldAlert, Clock, Sparkles } from 'lucide-react';
 import { useAgentStore } from '../../lib/state/useAgentStore';
-import { Post } from '../../lib/adapter/types';
+import { WhyRationaleCard } from './WhyRationaleCard';
 
 export const PublishSection: React.FC = () => {
-  const { posts, candidate, activeStage, uiState } = useAgentStore();
-  const [copied, setCopied] = useState(false);
-
-  const latestPost: Post | undefined = posts[0] || (candidate.postText ? {
-    id: "PUB-2026-08-08-41",
-    createdAt: new Date().toISOString(),
-    text: candidate.postText,
-    rationale: candidate.rationale || '',
-    sources: candidate.sources,
-  } : undefined);
-
-  const handleCopyJson = () => {
-    if (!latestPost) return;
-    navigator.clipboard.writeText(JSON.stringify(latestPost, null, 2));
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
+  const { candidate, activeStage, uiState } = useAgentStore();
   const isActive = activeStage === 'PUBLISH' || uiState === 'PUBLISHED';
+  const isPublish = candidate.outcome === 'PUBLISH';
+
+  const [displayedText, setDisplayedText] = useState('');
+  const fullText = candidate.postText || '';
+
+  // Typewriter reveal animation for post text
+  useEffect(() => {
+    if (isActive && fullText) {
+      setDisplayedText('');
+      let index = 0;
+      const timer = setInterval(() => {
+        if (index < fullText.length) {
+          setDisplayedText((prev) => prev + fullText.charAt(index));
+          index++;
+        } else {
+          clearInterval(timer);
+        }
+      }, 15);
+      return () => clearInterval(timer);
+    } else {
+      setDisplayedText(fullText);
+    }
+  }, [isActive, fullText]);
+
+  if (!isPublish) {
+    return null; // When rejected, the RejectOutcomeCard renders instead
+  }
 
   return (
-    <section className="relative min-h-[90vh] py-16 px-6 max-w-4xl mx-auto flex flex-col justify-center border-b border-white/5">
+    <section id="publish-stage" className="relative min-h-[80vh] py-20 px-6 max-w-4xl mx-auto flex flex-col justify-center border-b border-white/10 selection:bg-oculus-cyan/30">
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: isActive ? 1 : 0.6, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="space-y-8"
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className={`space-y-8 glass-panel p-6 sm:p-10 rounded-xl transition-all duration-500 ${
+          isActive ? 'border-oculus-emerald/60 shadow-[0_0_40px_rgba(0,255,157,0.2)]' : 'border-white/10 opacity-70'
+        }`}
       >
         {/* Section Header */}
-        <div className="flex items-center justify-between font-mono text-xs border-b border-white/10 pb-4">
-          <div className="flex items-center space-x-3">
-            <span className={`w-2 h-2 rounded-full ${isActive ? 'bg-oculus-emerald animate-ping' : 'bg-oculus-textMuted'}`} />
-            <span className="text-oculus-emerald tracking-widest uppercase font-bold">05 // VERIFIED RESEARCH ARTIFACT</span>
+        <div className="flex items-center justify-between border-b border-white/10 pb-4">
+          <div className="flex items-center space-x-3 font-mono text-xs">
+            <FileText className={`w-4 h-4 ${isActive ? 'text-oculus-emerald animate-pulse' : 'text-oculus-textMuted'}`} />
+            <span className="text-oculus-emerald font-bold tracking-widest uppercase text-sm">05 // PUBLISH</span>
+            <span className="text-oculus-textMuted hidden sm:inline-block">— VERIFIED RESEARCH ARTIFACT</span>
           </div>
-          <button
-            onClick={handleCopyJson}
-            className="px-2.5 py-1 rounded bg-oculus-panel border border-oculus-emerald/30 text-oculus-emerald text-[10px] hover:bg-oculus-emerald hover:text-black transition-colors flex items-center space-x-1"
-          >
-            {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-            <span>{copied ? 'COPIED' : 'API JSON'}</span>
-          </button>
+
+          <div className="flex items-center space-x-2 font-mono text-xs text-oculus-emerald bg-oculus-emerald/10 px-2.5 py-1 rounded border border-oculus-emerald/30">
+            <CheckCircle2 className="w-3.5 h-3.5" />
+            <span>ARTIFACT GENERATED</span>
+          </div>
         </div>
 
-        {latestPost ? (
-          <div className="space-y-8">
-            {/* Artifact Title */}
-            <h3 className="text-3xl sm:text-4xl font-bold text-white font-sans leading-tight">
-              {candidate.title || "AI Agent Permission Boundary Vulnerability in Cloud Runtimes"}
-            </h3>
-
-            {/* Post Text Body */}
-            <div className="prose prose-invert max-w-none text-oculus-textMain font-sans leading-relaxed space-y-4 text-base">
-              {latestPost.text.split('\n\n').map((paragraph, idx) => (
-                <p key={idx}>{paragraph}</p>
-              ))}
+        {/* Research Briefing Card */}
+        <div className="p-6 sm:p-8 rounded-xl bg-black/60 border border-white/10 space-y-6">
+          {/* Top Metadata Header Bar */}
+          <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-oculus-textMuted border-b border-white/10 pb-4">
+            <div className="flex items-center space-x-2">
+              <ShieldAlert className="w-4 h-4 text-oculus-cyan" />
+              <span className="text-white font-bold tracking-wider uppercase">OCULUS-AI BRIEFING</span>
             </div>
 
-            {/* Structured Editorial Sections */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-white/10 font-mono text-xs">
-              <div className="p-4 rounded bg-oculus-panel border border-white/5 space-y-2">
-                <span className="text-oculus-cyan block text-[10px] font-bold">WHY SELECTED</span>
-                <p className="text-white text-xs font-sans leading-relaxed">
-                  High-confidence signal with low overlap and significant security relevance across distributed honeypots.
-                </p>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-1 text-oculus-emerald">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>CONFIDENCE {(candidate.confidenceScore * 100).toFixed(0)}%</span>
               </div>
-
-              <div className="p-4 rounded bg-oculus-panel border border-white/5 space-y-2">
-                <span className="text-oculus-cyan block text-[10px] font-bold">WHY IT MATTERS NOW</span>
-                <p className="text-white text-xs font-sans leading-relaxed">
-                  Immediate threat to multi-tenant LLM environments as enterprise agentic adoption expands rapid attack surface.
-                </p>
-              </div>
-            </div>
-
-            {/* Sources List */}
-            <div className="pt-2 font-mono text-xs">
-              <span className="text-oculus-textMuted block text-[10px] mb-2 uppercase">VERIFIED SOURCES</span>
-              <div className="flex flex-wrap gap-2">
-                {latestPost.sources.map((src, i) => (
-                  <a
-                    key={i}
-                    href={src}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="px-3 py-1.5 rounded bg-oculus-panel border border-oculus-border/40 text-oculus-cyan hover:border-oculus-cyan flex items-center space-x-1.5 transition-colors"
-                  >
-                    <span className="truncate max-w-[220px]">{src}</span>
-                    <ExternalLink className="w-3 h-3 text-oculus-textMuted" />
-                  </a>
-                ))}
+              <div className="flex items-center space-x-1 text-oculus-textMuted">
+                <Clock className="w-3.5 h-3.5" />
+                <span>CREATED JUST NOW</span>
               </div>
             </div>
           </div>
-        ) : (
-          <div className="p-8 text-center text-oculus-textMuted font-mono text-xs">
-            AWAITING AUTONOMOUS PUBLICATION...
+
+          {/* Research Title */}
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight font-sans">
+            {candidate.title}
+          </h2>
+
+          {/* Research Content Body (Typewriter effect) */}
+          <div className="font-sans text-base sm:text-lg text-slate-200 leading-relaxed space-y-4 whitespace-pre-line border-l-2 border-oculus-cyan/40 pl-4 py-1">
+            {displayedText}
+            {isActive && displayedText.length < fullText.length && (
+              <span className="inline-block w-2 h-5 bg-oculus-cyan animate-pulse ml-1" />
+            )}
           </div>
-        )}
+
+          {/* Why Selected & Why It Matters Now Breakdown */}
+          <WhyRationaleCard candidate={candidate} />
+        </div>
       </motion.div>
     </section>
   );
