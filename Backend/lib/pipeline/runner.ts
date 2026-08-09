@@ -202,7 +202,7 @@ export async function runAgentPipeline(
         continue;
       }
 
-      // 4e. Handle publication (score >= 70)
+      // 4e. Handle publication (score >= 75)
       publishedCount++;
 
       // Generate analytical post and selection rationale
