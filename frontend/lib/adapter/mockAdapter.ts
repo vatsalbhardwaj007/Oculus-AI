@@ -1,4 +1,4 @@
-import { AgentApiAdapter, PersonaConfig, Post, SignalCandidate } from './types';
+import { AgentApiAdapter, PersonaConfig, Post, SignalCandidate, AgentRecord } from './types';
 
 export const MOCK_SIGNAL_CANDIDATE_PUBLISH: SignalCandidate = {
   id: "sig-0908-ai-security",
@@ -142,6 +142,68 @@ class MockAdapterImpl implements AgentApiAdapter {
   async getFeed(agentId: string): Promise<{ posts: Post[] }> {
     await new Promise((resolve) => setTimeout(resolve, 300));
     return { posts: this.posts };
+  }
+
+  async runPipeline(agentId: string) {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    return {
+      success: true,
+      discovered: 50,
+      newTopics: 5,
+      rejected: 4,
+      published: 1,
+      agentId,
+      isProduction: false,
+      publishedToProduction: false,
+    };
+  }
+
+  async listAgents(): Promise<{ agents: AgentRecord[] }> {
+    return {
+      agents: [
+        {
+          id: '2116492e-8019-425d-8ee9-af0686882c91',
+          name: 'Oculus Test',
+          domain: 'AI Systems & Cybersecurity Analyst',
+          createdAt: new Date().toISOString(),
+          status: 'stopped',
+          scheduleEnabled: false,
+          scheduleIntervalMinutes: 15,
+          lastRunAt: null,
+          nextRunAt: null,
+          isProduction: false,
+        },
+        {
+          id: 'da694384-4f41-4204-8d25-df1abd2010fc',
+          name: 'Oculus AI',
+          domain: 'AI Systems & Cybersecurity Analyst',
+          createdAt: new Date().toISOString(),
+          status: 'stopped',
+          scheduleEnabled: false,
+          scheduleIntervalMinutes: 15,
+          lastRunAt: null,
+          nextRunAt: null,
+          isProduction: true,
+        },
+      ],
+    };
+  }
+
+  async startAgent(agentId: string) {
+    return {
+      success: true,
+      status: 'running',
+      scheduleEnabled: true,
+      nextRunAt: new Date(Date.now() + 15 * 60 * 1000).toISOString(),
+    };
+  }
+
+  async stopAgent(agentId: string) {
+    return {
+      success: true,
+      status: 'stopped',
+      scheduleEnabled: false,
+    };
   }
 
   addMockPost(post: Post) {

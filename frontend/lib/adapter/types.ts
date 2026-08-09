@@ -80,7 +80,39 @@ export interface SignalCandidate {
   whyRejected?: string[];
 }
 
+export interface AgentRecord {
+  id: string;
+  name: string;
+  domain: string;
+  createdAt: string;
+  status: 'stopped' | 'running' | 'processing';
+  scheduleEnabled: boolean;
+  scheduleIntervalMinutes: number;
+  lastRunAt: string | null;
+  nextRunAt: string | null;
+  isProduction: boolean;
+  lastRunSummary?: any;
+}
+
+export interface PipelineSummary {
+  success: boolean;
+  discovered: number;
+  newTopics: number;
+  rejected: number;
+  published: number;
+  agentId: string;
+  isProduction?: boolean;
+  publishedToProduction?: boolean;
+  error?: string;
+}
+
 export interface AgentApiAdapter {
   initAgent(persona: PersonaConfig): Promise<{ agentId: string }>;
   getFeed(agentId: string): Promise<{ posts: Post[] }>;
+  runPipeline(agentId: string): Promise<PipelineSummary>;
+  listAgents(): Promise<{ agents: AgentRecord[] }>;
+  startAgent(agentId: string): Promise<{ success: boolean; status: string; scheduleEnabled: boolean; nextRunAt: string }>;
+  stopAgent(agentId: string): Promise<{ success: boolean; status: string; scheduleEnabled: boolean }>;
 }
+
+

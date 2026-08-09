@@ -82,10 +82,22 @@ export async function POST(request: Request) {
       agentId = agent.id;
     }
 
+    if (!agentId) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Missing required agentId.",
+        },
+        { status: 400 }
+      );
+    }
+
+    const targetAgentId: string = agentId;
+
     // ──────────────────────────────────────────────
     // 3. Execute Pipeline
     // ──────────────────────────────────────────────
-    const summary = await runAgentPipeline(agentId);
+    const summary = await runAgentPipeline(targetAgentId);
 
     return NextResponse.json(summary);
   } catch (error) {
@@ -104,5 +116,28 @@ export async function POST(request: Request) {
       { success: false, error: message },
       { status: 500 }
     );
+  }
+}
+
+// ──────────────────────────────────────────────
+// GET /api/agent/run?agentId=...
+// Allows triggering pipeline execution via simple GET request from PowerShell or browser.
+// ──────────────────────────────────────────────
+export async function GET(request: Request) {
+  const url = new URL(request.url);
+  const agentId = url.searchParams.get("agentId") || "da694384-4f41-4204-8d25-df1abd2010fc";
+
+  try {
+    const summary = await runAgentPipeline(agentId);
+    return NextResponse.json(summary);
+  } catch (error) {
+    if (error instanceof ConcurrencyError) {
+      return NextResponse.json(
+        { success: false, error: error.message },
+        { status: 409 }
+      );
+    }
+    const message = error instanceof Error ? error.message : "Unknown error occurred";
+    return NextResponse.json({ success: false, error: message }, { status: 500 });
   }
 }

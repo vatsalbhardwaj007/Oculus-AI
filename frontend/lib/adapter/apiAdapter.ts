@@ -2,7 +2,8 @@ import { AgentApiAdapter } from './types';
 import { mockAdapter } from './mockAdapter';
 import { realAdapter } from './realAdapter';
 
-// Environment switchable or fallback to mock adapter if backend API returns error
-const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK_API !== 'false';
+// Use real backend adapter by default unless NEXT_PUBLIC_USE_MOCK_API is set to 'true'
+const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK_API === 'true';
 
 export const apiAdapter: AgentApiAdapter = USE_MOCK ? mockAdapter : realAdapter;
+

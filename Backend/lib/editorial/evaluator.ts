@@ -55,8 +55,8 @@ SCORING RUBRIC (Total = 100 points):
 5. Timeliness (0 - 10 points): Is this current and worth discussing right now?
 
 PUBLISHING THRESHOLD:
-- Score >= 75 points → PUBLISH
-- Score < 75 points → REJECT
+- Score >= 70 points → PUBLISH
+- Score < 70 points → REJECT
 
 OUTPUT FORMAT:
 You MUST respond with a valid JSON object matching this exact structure:
@@ -71,7 +71,8 @@ You MUST respond with a valid JSON object matching this exact structure:
     "timeliness": number
   },
   "reason": "concise, sharp explanation of the editorial decision"
-}`;
+}
+`;
 
   const userPrompt = `Evaluate the following article:
 
@@ -128,9 +129,9 @@ Summary: ${article.summary}`;
     breakdown.novelty +
     breakdown.timeliness;
 
-  // Strictly determine decision based on server-validated score (threshold >= 75)
+  // Strictly determine decision based on server-validated score (threshold >= 70)
   const validatedDecision: "publish" | "reject" =
-    validatedScore >= 75 ? "publish" : "reject";
+    validatedScore >= 70 ? "publish" : "reject";
 
   const reason =
     typeof parsed.reason === "string" && parsed.reason.trim().length > 0

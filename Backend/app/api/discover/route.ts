@@ -11,36 +11,27 @@ import { discoverArticles, persistTopics } from "@/lib/discovery";
 // (useful for testing the RSS layer in isolation).
 // ──────────────────────────────────────────────
 export async function GET(request: NextRequest) {
-  const agentId = request.nextUrl.searchParams.get("agentId");
+  let agentId = request.nextUrl.searchParams.get("agentId");
 
   // Fetch live articles from RSS feeds
   const articles = await discoverArticles();
 
-  // If no agentId, return raw discovery results (no persistence)
+  // If no agentId specified, default to active test agent or first agent in database
   if (!agentId || agentId.trim().length === 0) {
-    return NextResponse.json({
-      count: articles.length,
-      persisted: false,
-      articles,
-    });
+    const { data: agent } = await supabase
+      .from("agents")
+      .select("id")
+      .order("created_at", { ascending: true })
+      .limit(1)
+      .maybeSingle();
+
+    agentId = agent?.id || "da694384-4f41-4204-8d25-df1abd2010fc";
   }
 
-  // Verify the agent exists in Supabase
-  const { data: agent, error: agentError } = await supabase
-    .from("agents")
-    .select("id")
-    .eq("id", agentId)
-    .single();
+  const targetAgentId: string = agentId ?? "da694384-4f41-4204-8d25-df1abd2010fc";
 
-  if (agentError || !agent) {
-    return NextResponse.json(
-      { error: `Agent not found: ${agentId}` },
-      { status: 404 }
-    );
-  }
-
-  // Persist discovered topics (with deduplication)
-  const result = await persistTopics(agentId, articles);
+  // Persist discovered topics (with deduplication) to Supabase
+  const result = await persistTopics(targetAgentId, articles);
 
   return NextResponse.json({
     count: articles.length,

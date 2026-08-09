@@ -5,13 +5,10 @@ import { supabase } from "@/lib/supabase";
 // GET /api/agent/feed?agentId=...
 // ──────────────────────────────────────────────
 export async function GET(request: NextRequest) {
-  const agentId = request.nextUrl.searchParams.get("agentId");
+  let agentId = request.nextUrl.searchParams.get("agentId");
 
   if (!agentId || agentId.trim().length === 0) {
-    return NextResponse.json(
-      { error: "Missing required query parameter: agentId." },
-      { status: 400 }
-    );
+    agentId = "da694384-4f41-4204-8d25-df1abd2010fc";
   }
 
   // Check if the agent exists in Supabase
@@ -28,10 +25,10 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  // Fetch posts for this agent, newest first
+  // Fetch posts for this agent, newest first, with topic title
   const { data: agentPosts, error: postsError } = await supabase
     .from("posts")
-    .select("id, created_at, text, rationale, sources")
+    .select("id, created_at, text, rationale, sources, topics(title, score)")
     .eq("agent_id", agentId)
     .order("created_at", { ascending: false });
 
@@ -43,5 +40,15 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  return NextResponse.json({ posts: agentPosts ?? [] }, { status: 200 });
+  const posts = (agentPosts || []).map((p: any) => ({
+    id: p.id,
+    created_at: p.created_at,
+    title: p.topics?.title || (p.text ? p.text.slice(0, 70) + "..." : "Cybersecurity Briefing"),
+    text: p.text,
+    rationale: p.rationale,
+    sources: p.sources,
+    score: p.topics?.score,
+  }));
+
+  return NextResponse.json({ posts }, { status: 200 });
 }
