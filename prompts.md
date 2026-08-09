@@ -1,26 +1,24 @@
 # OCULUS-AI — PROMPT REGISTRY
 
-## PROJECT CONTEXT — SHORT REFERENCE
+## PROJECT CONTEXT — APPLIES TO ALL DEVELOPMENT
 
-Oculus-AI is an autonomous AI cybersecurity researcher that watches the
-technology frontier, separates signal from noise, remembers previous
-coverage, evaluates evidence, makes editorial decisions, and publishes
-what actually matters.
+Before using any frontend or backend prompt below, read and follow
+`PROJECT_CONTEXT.md`.
 
-The human initializes the system once. After initialization, Oculus-AI
-should operate autonomously by:
+`PROJECT_CONTEXT.md` is the single source of truth for Oculus-AI's:
 
-1. Discovering information from live sources.
-2. Evaluating whether developments deserve publication.
-3. Rejecting weak, repetitive, speculative, or insufficiently supported
-   topics.
-4. Writing in a consistent cybersecurity-researcher voice.
-5. Remembering previous publications and related coverage.
-6. Publishing worthwhile developments over time.
-7. Explaining why each publication was selected.
-8. Providing supporting sources.
+- product identity
+- autonomous research lifecycle
+- persona
+- editorial philosophy
+- visual identity
+- frontend/backend responsibilities
+- API and data principles
+- security requirements
+- development workflow
+- extensibility requirements
 
-### Core Autonomous Loop
+The core autonomous lifecycle is:
 
 OBSERVE
 → REMEMBER
@@ -28,395 +26,487 @@ OBSERVE
 → DECIDE
 → PUBLISH
 
-The frontend exists to make this autonomous process observable and
-understandable. It is a presentation layer; the backend is the source of
-truth for agent state, publications, decisions, rationale, sources,
-memory, and autonomous activity.
+Oculus-AI is an autonomous AI cybersecurity researcher that discovers
+live information, evaluates whether it matters, remembers previous
+coverage, makes editorial decisions, and publishes worthwhile research.
 
-### Product Areas
+The frontend exists to make this autonomous process observable.
 
-- Operations
-- Publications
-- Editorial Decisions
-- Memory
-- Sources
+The backend is the source of truth for:
 
-### Product Identity
+- agent state
+- publications
+- decisions
+- rationale
+- sources
+- memory
+- autonomous activity
 
-Oculus-AI should feel:
+The frontend must never invent backend data or autonomous activity.
 
-- professional
-- analytical
-- precise
-- skeptical
-- evidence-driven
-- calm
-- technical
-- independent
-- editorial
+All AI tools must:
 
-It should NOT feel like:
+1. Read PROJECT_CONTEXT.md before making changes.
+2. Preserve Oculus-AI's identity and autonomous-researcher concept.
+3. Preserve existing working functionality.
+4. Avoid generic AI SaaS, chatbot, social-media and cyberpunk patterns.
+5. Never fabricate backend data or autonomous activity.
+6. Prefer small, modular and safe changes.
+7. Use reusable components and clear data boundaries.
+8. Keep meaningful animation tied to real system behavior.
+9. Never expose secrets or credentials.
+10. Keep new features consistent with the existing architecture.
 
-- a generic AI SaaS dashboard
-- a chatbot
-- social media
-- a gaming interface
-- cyberpunk/hacker software
-- a marketing website
-- a generic analytics dashboard
+The complete product constitution remains in:
 
-### Core Principles
-
-Evidence over hype.
-
-Relevance over reach.
-
-Novelty over repetition.
-
-Analysis over noise.
-
-Primary evidence over speculation.
-
-Cybersecurity significance over generic technology announcements.
-
-### Frontend Rules
-
-The frontend must never invent backend facts, scores, decisions, sources,
-memory results, or autonomous activity.
-
-If the backend does not provide information, use an honest loading, empty,
-or unavailable state.
-
-Do not fabricate activity such as:
-
-"Scanning..."
-"Thinking..."
-"Analyzing..."
-
-unless the backend actually reports that operation.
-
-Meaningful motion must represent real system behavior.
-
-Idle means genuinely idle.
-
-### Visual Direction
-
-The interface should use a restrained dark visual language with:
-
-- near-black/dark neutral backgrounds
-- dark charcoal surfaces
-- subtle structural borders
-- near-white primary text
-- muted gray secondary text
-- restrained semantic accents
-
-Semantic colors:
-
-- Cyan = live signal / active research
-- Violet = memory
-- Amber = evaluation
-- Mint = publication
-- Coral = rejection
-
-Avoid:
-
-- neon overload
-- excessive glow
-- decorative particles
-- unnecessary gradients
-- glassmorphism
-- excessive rounded cards
-- cyberpunk effects
-- decorative 3D
-
-### Signature Pipeline
-
-OBSERVE → REMEMBER → EVALUATE → DECIDE → PUBLISH
-
-The pipeline represents the actual autonomous research process.
-
-Successful publication:
-
-OBSERVE ✓ → REMEMBER ✓ → EVALUATE ✓ → DECIDE ✓ → PUBLISH
-
-Rejection:
-
-OBSERVE ✓ → REMEMBER ✓ → EVALUATE ✓ → DECIDE ✕ → PUBLISH —
-
-A rejection represents intentional editorial judgment, not system failure.
-
-### Architecture Principles
-
-Use reusable components.
-
-Keep features modular.
-
-Keep API communication separate from visual components.
-
-Centralize important shared types.
-
-Preserve existing functionality.
-
-Prefer small, safe changes.
-
-Do not redesign unrelated parts of the application.
-
-The application should remain easy to extend for an unknown final-round
-hackathon feature.
-
-### AI Development Rule
-
-AI tools implement product decisions; they do not redefine the product.
-
-Any AI coding/design agent working on Oculus-AI should:
-
-1. Read PROJECT_CONTEXT.md before modifying the project.
-2. Preserve Oculus-AI's identity.
-3. Preserve the autonomous-researcher concept.
-4. Avoid generic AI SaaS patterns.
-5. Never invent backend data.
-6. Never fabricate autonomous activity.
-7. Preserve existing working functionality.
-8. Prefer small, safe, modular changes.
-9. Keep animations purposeful.
-10. Never expose secrets or credentials.
-
-The complete project constitution is maintained separately in:
-
-PROJECT_CONTEXT.md
+`PROJECT_CONTEXT.md`
 
 
 # FRONTEND PROMPTS
 
-## F-01 — Frontend Visual System
+## F-01 — Visual System & Product Experience
 
-[Paste frontend design-system prompt here]
+Build and maintain the Oculus-AI frontend according to PROJECT_CONTEXT.md.
+
+The frontend should feel like a professional autonomous cybersecurity
+research instrument rather than a generic AI dashboard.
+
+Prioritize:
+
+- observation
+- memory
+- evidence
+- editorial judgment
+- decisions
+- publication
+- source transparency
+
+Use the existing Oculus-AI visual language and reusable components.
+
+Do not introduce unrelated visual styles or redesign the product without
+explicit instruction.
 
 
 ## F-02 — Autonomous Pipeline
 
-[Paste autonomous pipeline prompt here]
+Implement the reusable Oculus-AI pipeline:
+
+OBSERVE → REMEMBER → EVALUATE → DECIDE → PUBLISH
+
+The pipeline must represent actual backend state.
+
+Show active, completed, published and rejected states clearly.
+
+Idle means genuinely idle.
+
+Never create fake scanning, thinking, analyzing or processing animations.
+
+A rejection must terminate at DECIDE and must not look like a system
+failure.
 
 
-## F-03 — Operations Experience
+## F-03 — Operations
 
-[Paste Operations prompt here]
+Build the Operations experience as the primary view of Oculus-AI.
 
+Make it immediately clear:
 
-## F-04 — Editorial Decisions
+- what the agent is doing
+- what signal it is observing
+- what it remembers
+- what it is evaluating
+- what decision it made
+- what happened afterward
 
-[Paste Decisions prompt here]
+Prioritize real backend state, evidence, rationale, sources and activity.
 
-
-## F-05 — Publications
-
-[Paste Publications prompt here]
-
-
-## F-06 — Memory
-
-[Paste Memory prompt here]
+Do not invent information that the backend does not provide.
 
 
-## F-07 — Sources
+## F-04 — Publications & Decisions
 
-[Paste Sources prompt here]
+Build Publications and Editorial Decisions as research-oriented
+experiences.
 
+Publications should expose:
 
-## F-08 — Application Shell
+- title
+- publication time
+- content
+- rationale
+- why now
+- sources
 
-[Paste application-shell prompt here]
+Decisions should expose actual:
 
+- publish/reject outcome
+- reasoning
+- evaluation information
+- timestamp
 
-## F-09 — Responsive Design
+Rejection represents intentional editorial judgment, not failure.
 
-[Paste responsive-design prompt here]
-
-
-## F-10 — Interactive 3D Intelligence Environment
-
-[Paste your interactive 3D prompts here]
-
-
-## F-11 — Distinctive Visual Identity
-
-[Paste Quiet Intelligence / distinctive visual identity prompt here]
-
-
-## F-12 — Living Research Instrument
-
-[Paste living research instrument prompt here]
+Avoid social-media patterns such as likes, comments or engagement
+metrics.
 
 
-## F-13 — Frontend Corrections
+## F-05 — Memory & Sources
 
-[Paste correction prompts used with Lovable, Antigravity, Emergent,
-Cursor, etc. here]
+Build Memory and Sources experiences around real backend information.
+
+Memory should communicate:
+
+- previous coverage
+- related research
+- overlap
+- continuity
+- duplicate avoidance
+
+Sources should communicate the actual sources configured and used by
+Oculus-AI.
+
+Never claim that the system monitors a source or retrieved memory unless
+the backend provides that information.
+
+
+## F-06 — Frontend ↔ Backend Integration
+
+Connect the frontend to the existing backend API without unnecessarily
+changing the backend contract.
+
+Keep API logic separate from visual components.
+
+Use centralized types and adapters where appropriate.
+
+Handle loading, empty states, errors and unavailable data honestly.
+
+The frontend must remain a presentation layer.
+
+
+## F-07 — Responsive & Accessible Frontend
+
+Maintain the Oculus-AI experience across:
+
+- desktop
+- tablet
+- mobile
+
+Do not simply shrink the desktop layout.
+
+Preserve the importance of:
+
+- agent identity
+- current state
+- autonomous pipeline
+- research
+- decisions
+- sources
+
+Support keyboard navigation, focus states, semantic HTML, readable
+contrast and reduced-motion preferences.
+
+
+## F-08 — Frontend Debugging & Corrections
+
+Review the existing frontend against PROJECT_CONTEXT.md.
+
+Fix genuine issues involving:
+
+- runtime errors
+- hydration errors
+- TypeScript errors
+- API integration
+- layout
+- responsive behavior
+- accessibility
+- pipeline states
+- publication/rejection states
+- visual consistency
+
+Preserve working functionality.
+
+Do not perform unrelated redesigns.
 
 
 # BACKEND PROMPTS
 
-## P-01 — Core Architecture
+## B-01 — Autonomous Research Architecture
 
-[Your existing backend P-01 prompt]
+Build and maintain the backend according to PROJECT_CONTEXT.md.
 
+The backend must support:
 
-## P-02 — Supabase Infrastructure
+OBSERVE → REMEMBER → EVALUATE → DECIDE → PUBLISH
 
-[Your existing backend P-02 prompt]
+Keep discovery, memory, evaluation, decisions and publishing modular,
+observable and reliable.
 
+The backend remains the source of truth for autonomous state and research
+data.
 
-## P-03 — Agent Memory
 
-[Your existing backend P-03 prompt]
+## B-02 — Discovery & Sources
 
+Implement live information discovery using the approved sources.
 
-## P-04 — Editorial Judgment
+Normalize discovered information while preserving source provenance.
 
-[Your existing backend P-04 prompt]
+Discovery must produce candidates for evaluation.
 
+Discovery must not bypass the memory and editorial decision process.
 
-## P-05 — Technical Briefing Generation
 
-[Your existing backend P-05 prompt]
+## B-03 — Memory & Deduplication
 
+Implement memory for previous publications and related research.
 
-## P-06 — RSS Discovery
+Memory should support:
 
-[Your existing backend P-06 prompt]
+- continuity
+- previous coverage
+- related topics
+- duplicate detection
+- editorial context
 
+Do not allow memory to replace editorial judgment.
 
-## P-07 — Dynamic Discovery / API
 
-[Your existing backend P-07 prompt]
+## B-04 — Evaluation & Editorial Judgment
 
+Evaluate discovered candidates according to Oculus-AI's editorial
+philosophy.
 
-## P-08 — Environment Configuration
+Consider:
 
-[Your existing backend P-08 prompt]
+- relevance
+- timeliness
+- substance
+- originality
+- source quality
+- audience value
+- evidence quality
+- cybersecurity significance
 
+Produce an explicit PUBLISH or REJECT decision.
 
-## P-09 — Oculus Test
+Do not publish merely because a candidate was discovered.
 
-[Your existing backend P-09 prompt]
 
+## B-05 — Publication Generation
 
-## P-10 — Oculus AI Production Persona
+Generate research using the Oculus-AI cybersecurity-researcher persona.
 
-[Your existing backend P-10 prompt]
+Each publication should communicate:
 
+- what happened
+- why it matters
+- why it is relevant now
+- supporting sources
+- why it was selected
 
-## P-11 — Agent Cleanup
+Maintain a professional, analytical, skeptical and evidence-driven voice.
 
-[Your existing backend P-11 prompt]
 
+## B-06 — Autonomous Scheduler & Controls
 
-## P-12 — START / STOP Controls
+Implement reliable autonomous operation after initialization.
 
-[Your existing backend P-12 prompt]
+Support safe START and STOP behavior.
 
+Prevent duplicate or conflicting autonomous cycles.
 
-## P-13 — Autonomous Scheduler
+Expose accurate system state to the frontend.
 
-[Your existing backend P-13 prompt]
+Do not fabricate successful or active states.
 
 
-## P-14 — Token / API Protection
+## B-07 — API & Frontend Integration
 
-[Your existing backend P-14 prompt]
+Expose the backend information required by the frontend:
 
+- agent state
+- publications
+- decisions
+- rationale
+- sources
+- memory
+- autonomous activity
 
-## P-15 — Dynamic Search
+Maintain clear API boundaries.
 
-[Your existing backend P-15 prompt]
+Do not modify the API contract simply to make frontend implementation
+easier.
 
 
-## P-16 — Tavily
+## B-08 — Security, Testing & Production
 
-[Your existing backend P-16 prompt]
+Protect all API keys, credentials, tokens and privileged configuration.
 
+Test:
 
-## P-17 — Firecrawl
+- discovery
+- memory
+- deduplication
+- evaluation
+- publication
+- rejection
+- scheduler behavior
+- START/STOP
+- API failures
+- missing or invalid source data
 
-[Your existing backend P-17 prompt]
+Ensure the complete autonomous lifecycle remains reliable.
 
 
-## P-18 — RSS + Web Discovery
+## B-09 — Backend Review & Integration
 
-[Your existing backend P-18 prompt]
+Review the backend against PROJECT_CONTEXT.md.
 
+Verify that the complete lifecycle works coherently:
 
-## P-19 — Deduplication
+OBSERVE
+→ REMEMBER
+→ EVALUATE
+→ DECIDE
+→ PUBLISH
 
-[Your existing backend P-19 prompt]
+Confirm that the frontend receives real system state and that
+publications contain actual rationale and sources.
 
-
-## P-20 — Frontend ↔ Backend Integration
-
-[Your existing backend P-20 prompt]
-
-
-## P-21 — Deployment
-
-[Your existing backend P-21 prompt]
-
-
-## P-22 — Testing
-
-[Your existing backend testing prompts]
-
-
-## P-23 — Production Safety
-
-[Your existing production-safety prompts]
-
-
-## P-24 — Agentic Search
-
-[Your existing agentic-search prompt]
-
-
-## P-25 — Bounded Autonomous Cycle
-
-[Your existing bounded-cycle prompt]
-
-
-## P-26 — Production Scheduler
-
-[Your existing scheduler architecture prompt]
-
-
-## P-27 — STOP Safety
-
-[Your existing STOP safety prompt]
-
-
-## P-28 — Final Deployment Gate
-
-[Your existing deployment-gate prompt]
+Fix correctness, reliability, security or integration problems without
+unnecessary architectural changes.
 
 
 # FINAL-ROUND PROMPTS
 
-## Requirement
+## FR-01 — New Requirement Analysis
 
-[Feature provided by judges]
+Read PROJECT_CONTEXT.md and inspect the existing Oculus-AI repository
+before implementing any newly revealed requirement.
 
-## Analysis Prompt
+Identify:
 
-[Prompt used to understand the requirement]
+1. Where the feature belongs.
+2. Existing components that can be reused.
+3. Existing types and data that can be reused.
+4. Whether a new API is required.
+5. The minimum files that need to change.
+6. The smallest implementation that satisfies the requirement.
 
-## Implementation Prompt
+Do not redesign unrelated functionality.
 
-[Prompt used to implement it]
 
-## Debugging Prompt
+## FR-02 — New Requirement Implementation
 
-[Prompt used to fix issues]
+Implement the newly revealed requirement using the existing Oculus-AI
+design system, architecture, components, types and API boundaries.
 
-## Final Result
+Prioritize:
 
-[Short description of what was implemented]
+- correctness
+- reuse
+- minimal changes
+- visual consistency
+- stability
+- speed
+
+Do not introduce unnecessary dependencies.
+
+
+## FR-03 — Final Debugging
+
+Test the new implementation for:
+
+- runtime errors
+- TypeScript errors
+- API failures
+- responsive issues
+- accessibility
+- visual consistency
+- broken existing functionality
+
+Fix only necessary issues.
+
+Do not redesign unrelated parts of Oculus-AI.
+
+
+## FR-04 — Final Feature Documentation
+
+After the final-round feature is implemented, record the exact prompts
+used during analysis, implementation and debugging, together with a
+short description of the final result.
+
+# DEVELOPMENT PRINCIPLE
+
+The shared PROJECT CONTEXT applies to every frontend, backend and
+final-round prompt in this file.
+
+PROJECT_CONTEXT.md remains the complete source of truth.
+
+AI tools implement Oculus-AI product decisions; they do not redefine the
+product.
+
+The goal is to keep Oculus-AI modular, understandable, secure, extensible
+and consistent while preserving its identity as an autonomous
+cybersecurity researcher.
+# FINAL-ROUND PROMPTS
+
+## FR-01 — New Requirement Analysis
+
+Read PROJECT_CONTEXT.md and inspect the existing Oculus-AI repository
+before implementing any newly revealed requirement.
+
+Identify:
+
+1. Where the feature belongs.
+2. Existing components that can be reused.
+3. Existing types and data that can be reused.
+4. Whether a new API is required.
+5. The minimum files that need to change.
+6. The smallest implementation that satisfies the requirement.
+
+Do not redesign unrelated functionality.
+
+
+## FR-02 — New Requirement Implementation
+
+Implement the newly revealed requirement using the existing Oculus-AI
+design system, architecture, components, types and API boundaries.
+
+Prioritize:
+
+- correctness
+- reuse
+- minimal changes
+- visual consistency
+- stability
+- speed
+
+Do not introduce unnecessary dependencies.
+
+
+## FR-03 — Final Debugging
+
+Test the new implementation for:
+
+- runtime errors
+- TypeScript errors
+- API failures
+- responsive issues
+- accessibility
+- visual consistency
+- broken existing functionality
+
+Fix only necessary issues.
+
+Do not redesign unrelated parts of Oculus-AI.
+
+
+## FR-04 — Final Feature Documentation
+
+After the final-round feature is implemented, record the exact prompts
+used during analysis, implementation and debugging, together with a
+short description of the final result.
 # OCULUS-AI — PROMPT REGISTRY
 
 # 02. FRONTEND — OCULUS-AI AUTONOMOUS RESEARCH TERMINAL
